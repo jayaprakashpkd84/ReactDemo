@@ -13,12 +13,6 @@ export default class ParentComponent extends React.Component {
       }
     }
   
-    setStartDate = (e) => {
-      this.setState({
-        startDate: new Date()
-      })
-    }
-  
     clickEvent = (e) => {
       this.setState({
         state: !this.state.state
@@ -29,7 +23,7 @@ export default class ParentComponent extends React.Component {
       return (
         <div>
           {this.state.state === true &&
-            <LifeCycle setStartDate={this.setStartDate} />
+            <LifeCycle setStartDate={new Date()} />
           }
   
           <button

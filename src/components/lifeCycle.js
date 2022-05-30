@@ -11,26 +11,12 @@ export default class LifeCycle extends React.Component {
         thirdColor: "blue",
         enterColor:"",
         isActive:true,
-        startDate: props.startDate,
         endDate: null
      }
   }
 
-  setStartDate = (e) => {
-    this.setState({
-      startDate: new Date()
-    })
-  }
-
-  setEndDate = (e) => {
-    this.setState({
-        endDate: new Date()
-    })
-  }
-
   componentDidMount(){
-    console.log("from component did mount");
-    this.setStartDate();
+    console.log("from component did Mount");
   }
 
   componentDidUpdate(){
@@ -75,8 +61,8 @@ clickDivThree = () => {
      )
     }
     componentWillUnmount(){
-        this.setEndDate();
-        var diff = this.state.endDate -  this.state.startDate;
+        var endaDate = new Date();
+        var diff = endaDate -  this.props.setStartDate;
         console.log("from component will unmount"+diff);
       }
 }
