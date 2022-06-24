@@ -9,7 +9,9 @@ export default class Login extends React.Component {
                     password:"",
                     errorMesssageUN:"",
                     errorMesssagePWD:"",
-                    isActive :true
+                    isActive :true,
+                    names1:[],
+                    items:[]
                  }
                 }
             changeEventUN = (e) => {
@@ -25,7 +27,7 @@ export default class Login extends React.Component {
             }
     
       handleSubmit = () => {
-        var apIURL = "https://reqres.in/api/login";
+        var apIURL = "http://localhost:8000/SaveLogingDetails";
         var varusername = this.state.username;
         var varpassword = this.state.password;
        
@@ -47,7 +49,11 @@ export default class Login extends React.Component {
         if(count >0) {
             return false;
         }
+        debugger;
         //event.preventDefault();
+        try {
+
+      
         fetch(apIURL, {
           method: 'POST',
           headers: {
@@ -61,15 +67,55 @@ export default class Login extends React.Component {
         })
         .then((res) => res.json())
           .then((resJson) => {
-            if(resJson.token !== null && resJson.token !== undefined && resJson.token.length >0) {
-                alert("Congratulation. Successfully logged in.");
+             if(resJson.token !== null && resJson.token !== undefined && resJson.token.length >0) {
+            alert("Congratulation. Successfully logged in.");
             } else {
                 alert("Login Failed. Something went wrong. Please try again.");
             }
+            console.log(resJson)
           })
+        } catch(err) {
+            console.log(err)
+          }
+      };
+      
+      getLoggedUser = () => {
+        var apIURL = "http://localhost:8000/getloggedUserList";
+        
+        try {
+
+      
+        fetch(apIURL, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((res) => res.json())
+          .then((resJson) => {
+           // this.setState(prev => ({ names: resJson.data })); 
+            this.setState({
+                names1: resJson.data
+
+                
+            });  
+            
+        for (var i=0;i<resJson.data.length;i++) {
+            this.state.items.push(i+ '. '+resJson.data[i].BeneficiaryName+', ') ;
+          }
+
+            console.log(resJson.data)
+          })
+        } catch(err) {
+            console.log(err)
+          }
       };
 
+
+
     render() {
+
         return(
             <div>
                 <div><h3>Login</h3></div>
@@ -85,7 +131,12 @@ export default class Login extends React.Component {
 </TextField>
 <InputLabel sx={{color: "red"}}>{this.state.errorMesssagePWD}</InputLabel>
                 <br/>
-             <Button variant="contained" onClick={this.handleSubmit} >Login</Button>
+             <Button variant="contained" onClick={this.handleSubmit} >Login</Button> &nbsp;
+             <Button variant="contained" onClick={this.getLoggedUser} >Get Logged in User from DB</Button>
+<ul>
+           
+                {this.state.items}
+                </ul>
             </div>
         )
     }
