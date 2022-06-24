@@ -6,9 +6,9 @@ let dbServer = null;
 const connectToDB = (callback => {
   var dbDetails = mysql.createConnection({
     host: "10.0.10.1",
-    port: "3306",
-    user: "user",
-    password: "HWf6frqGoR61",
+    port: "2207",
+    user: "root",
+    password: "H*******1", 
     database: "SUNIDHI_CORE_V2_0"
   })
 
